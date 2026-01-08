@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>짧은 이야기 - 삶의 이야기를 공유하는 블로그</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Banner Ad Slot */
+        .ad-banner-top {
+            background: #f8f9fa;
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 2px solid #e0e0e0;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ad-placeholder {
+            color: #999;
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            color: #764ba2;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+        }
+
+        /* Stories Grid */
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .story-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .story-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .story-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .story-content {
+            padding: 1.5rem;
+        }
+
+        .story-category {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+        }
+
+        .story-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 0.8rem;
+            font-weight: bold;
+        }
+
+        .story-excerpt {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .story-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #999;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+            padding-top: 1rem;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .sidebar-widget {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-widget h3 {
+            color: #764ba2;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .popular-story {
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .popular-story:last-child {
+            border-bottom: none;
+        }
+
+        .popular-story h4 {
+            color: #333;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            font-weight: 600;
+        }
+
+        .popular-story h4:hover {
+            color: #667eea;
+        }
+
+        .popular-story span {
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        /* Ad Slots */
+        .ad-sidebar {
+            background: #f8f9fa;
+            border-radius: 8px;
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #e0e0e0;
+        }
+
+        .ad-inline {
+            background: #f8f9fa;
+            border-radius: 8px;
+            min-height: 100px;
+            margin: 2rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #e0e0e0;
+            grid-column: 1 / -1;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .stories-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .story-card {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">📖 짧은 이야기</div>
+            <ul class="nav-links">
+                <li><a href="#home">홈</a></li>
+                <li><a href="#stories">신규 이야기</a></li>
+                <li><a href="#categories">카테고리</a></li>
+                <li><a href="#about">소개</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Banner Ad Slot (Removed - SDK Auto Injects) -->
+    <!-- <div class="ad-banner-top" id="ad-banner-top">
+        <div class="ad-placeholder">[ 광고 배너 영역 728x90 - Ad Banner Top ]</div>
+    </div> -->
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>짧은 이야기의 세계를 탐험하다</h1>
+        <p>일상의 이야기, 진실한 감정, 그리고 삶에서 배운 의미 있는 교훈을 담는 공간</p>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Stories Grid -->
+        <div class="stories-grid">
+            <!-- Story Card 1 -->
+            <article class="story-card">
+                <div class="story-image"></div>
+                <div class="story-content">
+                    <span class="story-category">감성</span>
+                    <h2 class="story-title">마지막 낙엽</h2>
+                    <p class="story-excerpt">
+                        서울의 가을, 낙엽이 하나둘 떨어지고 있었다. 그녀는 오래된 벤치에 앉아 나뭇가지에 남은 마지막 낙엽을 바라보았다...
+                    </p>
+                    <div class="story-meta">
+                        <span>👤 김민아</span>
+                        <span>📅 2025.12.15</span>
+                        <span>❤️ 234</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Story Card 2 -->
+            <article class="story-card">
+                <div class="story-image"></div>
+                <div class="story-content">
+                    <span class="story-category">일상</span>
+                    <h2 class="story-title">골목길 카페</h2>
+                    <p class="story-excerpt">
+                        매일 아침, 할아버지는 익숙한 카페 구석 자리에 앉아 블랙커피를 홀짝이며 조간신문을 읽으셨다...
+                    </p>
+                    <div class="story-meta">
+                        <span>👤 박지훈</span>
+                        <span>📅 2025.12.14</span>
+                        <span>❤️ 189</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Story Card 3 -->
+            <article class="story-card">
+                <div class="story-image"></div>
+                <div class="story-content">
+                    <span class="story-category">추억</span>
+                    <h2 class="story-title">빵집 향기</h2>
+                    <p class="story-excerpt">
+                        갓 구운 빵 냄새를 맡을 때마다, 나는 어린 시절 아침의 기억과 어머니의 목소리가 떠오른다...
+                    </p>
+                    <div class="story-meta">
+                        <span>👤 이수진</span>
+                        <span>📅 2025.12.13</span>
+                        <span>❤️ 312</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Inline Ad Slot (Removed - SDK Auto Injects) -->
+            <!-- <div class="ad-inline" id="ad-inline">
+                <div class="ad-placeholder">[ 인라인 광고 영역 320x100 - Ad Inline ]</div>
+            </div> -->
+
+            <!-- Story Card 4 -->
+            <article class="story-card">
+                <div class="story-image"></div>
+                <div class="story-content">
+                    <span class="story-category">철학</span>
+                    <h2 class="story-title">어부와 철학자</h2>
+                    <p class="story-excerpt">
+                        철학자가 어부에게 물었다. "왜 더 많이 잡아서 더 많은 돈을 벌지 않으시나요?"...
+                    </p>
+                    <div class="story-meta">
+                        <span>👤 최동욱</span>
+                        <span>📅 2025.12.12</span>
+                        <span>❤️ 456</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Story Card 5 -->
+            <article class="story-card">
+                <div class="story-image"></div>
+                <div class="story-content">
+                    <span class="story-category">심리</span>
+                    <h2 class="story-title">침묵의 가치</h2>
+                    <p class="story-excerpt">
+                        때로는 침묵이 약함이 아니라, 지혜로운 사람의 선택이다...
+                    </p>
+                    <div class="story-meta">
+                        <span>👤 정혜원</span>
+                        <span>📅 2025.12.11</span>
+                        <span>❤️ 278</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Story Card 6 -->
+            <article class="story-card">
+                <div class="story-image"></div>
+                <div class="story-content">
+                    <span class="story-category">가족</span>
+                    <h2 class="story-title">온 가족이 함께한 식사</h2>
+                    <p class="story-excerpt">
+                        매년 설날이 되면, 온 가족이 따뜻한 밥상 앞에 둘러앉는다...
+                    </p>
+                    <div class="story-meta">
+                        <span>👤 강서연</span>
+                        <span>📅 2025.12.10</span>
+                        <span>❤️ 523</span>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <!-- Popular Stories Widget -->
+            <div class="sidebar-widget">
+                <h3>🔥 인기 이야기</h3>
+                <div class="popular-story">
+                    <h4>어머니와 한복</h4>
+                    <span>❤️ 892 좋아요</span>
+                </div>
+                <div class="popular-story">
+                    <h4>고향으로 가는 야간열차</h4>
+                    <span>❤️ 756 좋아요</span>
+                </div>
+                <div class="popular-story">
+                    <h4>어린 시절의 골목길</h4>
+                    <span>❤️ 645 좋아요</span>
+                </div>
+                <div class="popular-story">
+                    <h4>전장에서 온 편지</h4>
+                    <span>❤️ 589 좋아요</span>
+                </div>
+            </div>
+
+            <!-- Sidebar Ad Slot (Removed - SDK Auto Injects) -->
+            <!-- <div class="ad-sidebar" id="ad-sidebar">
+                <div class="ad-placeholder">[ 사이드바 광고<br>300x250<br>Ad Sidebar ]</div>
+            </div> -->
+
+            <!-- Categories Widget -->
+            <div class="sidebar-widget">
+                <h3>📚 카테고리</h3>
+                <div class="popular-story">
+                    <h4>감성 ❤️</h4>
+                    <span>128개 이야기</span>
+                </div>
+                <div class="popular-story">
+                    <h4>일상 🌟</h4>
+                    <span>95개 이야기</span>
+                </div>
+                <div class="popular-story">
+                    <h4>철학 🧘</h4>
+                    <span>67개 이야기</span>
+                </div>
+                <div class="popular-story">
+                    <h4>가족 🏠</h4>
+                    <span>84개 이야기</span>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>회사 소개</h4>
+                <p>짧은 이야기 - 한국인의 일상 이야기와 진실한 감정을 보존하고 공유하는 공간입니다.</p>
+            </div>
+            <div class="footer-section">
+                <h4>바로가기</h4>
+                <ul>
+                    <li><a href="#">이용약관</a></li>
+                    <li><a href="#">개인정보처리방침</a></li>
+                    <li><a href="#">이야기 등록 가이드</a></li>
+                    <li><a href="#">문의하기</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>소셜 미디어</h4>
+                <ul>
+                    <li><a href="#">📘 Facebook</a></li>
+                    <li><a href="#">📷 Instagram</a></li>
+                    <li><a href="#">🐦 Twitter</a></li>
+                    <li><a href="#">📧 Email</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 짧은 이야기. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Ad SDK Integration -->
+    <!-- Ad SDK Integration (Local Test) -->
+    <script async src="https://d4qhlpnqixes5.cloudfront.net/sdk/ad.js?client=pub-123456"></script>
+    <!-- <script async src="./sdk/ad.js?client=pub-123456"></script> -->
+
+</body>
+
+</html>
